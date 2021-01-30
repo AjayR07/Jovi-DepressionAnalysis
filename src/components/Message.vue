@@ -1,7 +1,12 @@
 <template>
-  <div class="my1 p1 h5 bg-light black rounded">
+  <v-alert
+      border="top"
+      colored-border
+      type="info"
+      elevation="2"
+  >
     <slot></slot>
-  </div>
+  </v-alert>
 </template>
 
 <script>

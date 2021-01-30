@@ -11,9 +11,6 @@
          <button id="download" disabled="disabled" @click="this.CamUpload">Analyse</button>
        </div>
 
-
-
-       <Header></Header>
         <div class="py1">
         <input type="file" class="btn btn-small btn-primary btn-upload bg-black h5" @change="this.handleUpload"  >
         </div>
@@ -30,7 +27,6 @@
        </Message>
        <Results :faces=this.faces :emotions=this.emotions v-show="faces.length > 0"></Results>
 
-       <Footer />
       </div>
 </template>
 
@@ -40,8 +36,7 @@ import debounce from "lodash.debounce";
 import { FaceFinder } from "@/scripts/face";
 import { EmotionNet } from "@/scripts/models";
 import {  readFile, nextFrame, drawBox, drawText } from "@/util";
-import Footer from '@/components/Footer';
-import Header from '@/components/Header';
+
 import Message from '@/components/Message';
 import Results from '@/components/Results';
 
@@ -162,7 +157,7 @@ export default {
   },
 
   components: { 
-      Header,Footer,Message,Results
+      Message,Results
   },
   computed:{
     noFaces(){
