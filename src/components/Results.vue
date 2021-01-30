@@ -1,21 +1,21 @@
 <template>
   <div>
     <Message>
-      <strong>Results:</strong> Of <strong>{{ this.total }}</strong>
-      {{ total > 1 ? 'people' : 'person' }} detected,
+      <strong>Results:</strong> Total <strong>{{ this.total }}</strong>
+      {{ this.total > 1 ? 'people' : 'person' }} detected,
       <strong>
-        {{ happy }} {{ this.fmt(happy / total, 0)}}
-      </strong>{' '}
-      {{ happy === 1 ? 'is' : 'are' }} happy.
+        {{ this.happy }}{{'  '}} {{ this.fmt(this.happy / this.total, 0)}}
+      </strong>
+      {{ this.happy === 1 ? 'is' : 'are' }} happy.
     </Message>
     <div>
       <div class="flex flex-wrap mxn1 mt1">
         <div v-for="(face,i) in faces" :key="i">
-        <div :key="i" class="col col-4 sm-col-3 md-col-5th px1">
-          <div class="mb1 border border-silver rounded overflow-hidden">
+        <!-- <div class="col col-4 sm-col-3 md-col-5th px1">
+          <div class="mb1 border border-silver rounded overflow-hidden"> -->
             <img
-                :src=face.toDataURL()
-                alt="face {{i}}"
+                :src="face.toDataURL()"
+    
                 class="block col-12"
             />
             <div class="p05 fs-tiny">
@@ -29,8 +29,8 @@
               </div>
               </div>
             </div>
-          </div>
-        </div>
+          <!-- </div>
+        </div> -->
         </div>
       </div>
     </div>
@@ -47,7 +47,23 @@ export default {
   components:{
     Message
   },
-  props:['total','happy','faces','emotions'],
+  data:()=>({
+    total:0.0,
+    happy:0.0
+  }),
+  props:['faces','emotions'],
+  mounted(){
+
+      console.log(this.faces);
+      console.log(this.emotions);
+
+      this.total=this.faces.length;
+      this.happy=this.emotions.filter(r => r[0].label.emoji === '😄').length
+
+      console.log(this.total);
+      console.log(this.happy);
+    
+  },
   methods:{
     fmt(x,digits=1)
     {

@@ -6,19 +6,18 @@ const tf = { ...core, ...layers }
 
 class Model {
 
-
+  
   constructor({ path, imageSize, classes, isGrayscale = false }) {
     this.path = path
     this.imageSize = imageSize
     this.classes = classes
     this.isGrayscale = isGrayscale
+    this.model=""
   }
 
   async load() {
 
     this.model = await tf.loadModel(this.path)
-    // let myModel=this.model;
-    // Warmup model
     const inShape = this.model.inputs[0].shape.slice(1)
     const result = tf.tidy(() => this.model.predict(tf.zeros([1, ...inShape])))
     await result.data()
@@ -26,10 +25,9 @@ class Model {
   }
 
   async imgToInputs(img) {
-    console.log("imgToInputs")
     // Convert to tensor & resize if necessary
     let norm = await prepImg(img, this.imageSize)
-
+    
     // TODO: infer whether this is needed based on model & img shapes
     if (this.isGrayscale) {
       norm = await rgbToGrayscale(norm)

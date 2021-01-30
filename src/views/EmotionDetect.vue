@@ -15,7 +15,7 @@
          <strong>Sorry!</strong> No faces were detected. Please try another
          image.
        </Message>
-       <Results :faces=this.faces :emotions=this.emotions v-show="faces.length > 0"></Results>
+       <Results :faces="this.faces" :emotions="this.emotions" v-show="this.faces.length > 0"></Results>
 
        <Footer />
       </div>
@@ -40,7 +40,6 @@ export default {
   mounted() {
     this.canvas = this.$refs.vueref1;
     this.img = this.$refs.vueref0;
-    console.log(this.img)
     this.initModels();
     window.addEventListener("resize", this.handleResize);
   },
@@ -68,20 +67,12 @@ export default {
   },
   methods:{
     initModels : async function () {
-
       const faceModel = new FaceFinder()
       await faceModel.load()
-
-
       const emotionModel = new EmotionNet()
       await emotionModel.load()
-      console.log(emotionModel);
-
-      console.log("INit Models Top");
-
       this.models = { face: faceModel, emotion: emotionModel }
       this.ready=true;
-      console.log("INit Models Done");
       this.initPredict();
     },
 
@@ -92,7 +83,6 @@ export default {
     },
 
     handleImgLoaded : function(){
-      console.log("Img Loaded")
       this.clearCanvas();
       this.analyzeFaces();
     },
@@ -112,7 +102,7 @@ export default {
     },
 
     analyzeFaces : async function ()  {
-      console.log("Analyze Faces");
+      
       await nextFrame()
 
       if (!this.models)
