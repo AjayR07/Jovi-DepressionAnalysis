@@ -1,7 +1,7 @@
 import * as faceapi from 'face-api.js'
 
 const MODEL_PATH =
-  `${process.env.PUBLIC_URL}/static/models/face/` +
+  `/static/models/face/` +
   'mtcnn_model-weights_manifest.json'
 
 const PARAMS = {
@@ -23,15 +23,20 @@ export class FaceFinder {
   }
 
   async findFaces(img) {
+
     const input = await faceapi.toNetInput(img, false, true)
+
     const results = await this.model.forward(input, this.params)
+    console.log("Find Faces");
     const detections = results.map(r => r.faceDetection)
 
     return { input, detections }
   }
 
   async findAndExtractFaces(img) {
+
     const { input, detections } = await this.findFaces(img)
+
     const faces = await faceapi.extractFaces(input.inputs[0], detections)
 
     return { detections, faces }

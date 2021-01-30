@@ -1,7 +1,12 @@
 import { prepImg, rgbToGrayscale } from './img'
-import { tf } from './tf'
+import * as core from '@tensorflow/tfjs-core'
+import * as layers from '@tensorflow/tfjs-layers'
+
+const tf = { ...core, ...layers }
 
 class Model {
+
+
   constructor({ path, imageSize, classes, isGrayscale = false }) {
     this.path = path
     this.imageSize = imageSize
@@ -10,8 +15,9 @@ class Model {
   }
 
   async load() {
-    this.model = await tf.loadModel(this.path)
 
+    this.model = await tf.loadModel(this.path)
+    // let myModel=this.model;
     // Warmup model
     const inShape = this.model.inputs[0].shape.slice(1)
     const result = tf.tidy(() => this.model.predict(tf.zeros([1, ...inShape])))
@@ -20,6 +26,7 @@ class Model {
   }
 
   async imgToInputs(img) {
+    console.log("imgToInputs")
     // Convert to tensor & resize if necessary
     let norm = await prepImg(img, this.imageSize)
 

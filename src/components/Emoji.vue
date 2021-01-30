@@ -1,10 +1,13 @@
 <template>
-$END$
+  <span role="img" :aria-label=this.label>
+      {{this.value}}
+    </span>
 </template>
 
 <script>
 export default {
-name: "Emoji.vue"
+  name: "Emoji.vue",
+  props:['label','value']
 }
 </script>
 

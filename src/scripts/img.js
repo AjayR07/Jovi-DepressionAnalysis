@@ -10,7 +10,7 @@ export const prepImg = (img, size) => {
   const normalized = imgTensor
     .toFloat()
     .sub(NORMALIZATION_OFFSET)
-    .div(NORMALIZATION_OFFSET)
+    .div(NORMALIZATION_OFFSET);
 
   if (imgTensor.shape[0] === size && imgTensor.shape[1] === size) {
     return normalized

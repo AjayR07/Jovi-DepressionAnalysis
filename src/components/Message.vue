@@ -1,10 +1,12 @@
 <template>
-$END$
+  <div class="my1 p1 h5 bg-light black rounded">
+    <slot></slot>
+  </div>
 </template>
 
 <script>
 export default {
-name: "Message"
+  name: "Message",
 }
 </script>
 

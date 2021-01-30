@@ -4,7 +4,7 @@ import * as classes from './classes'
 export class EmotionNet extends Model {
   constructor() {
     super({
-      path: `${process.env.PUBLIC_URL}/static/models/emotion/model.json`,
+      path: '/static/models/emotion/model.json',
       imageSize: 48,
       classes: classes.EMOTION,
       isGrayscale: true
@@ -15,7 +15,7 @@ export class EmotionNet extends Model {
 export class GenderNet extends Model {
   constructor() {
     super({
-      path: `${process.env.PUBLIC_URL}/static/models/gender/model.json`,
+      path: '/static/models/gender/model.json',
       imageSize: 48,
       classes: classes.GENDER
     })
