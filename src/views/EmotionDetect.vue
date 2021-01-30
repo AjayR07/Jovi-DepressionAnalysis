@@ -8,14 +8,14 @@
          <canvas></canvas>
          <br />
          <button id="newphoto">Take A Photo</button>
-         <button id="download" disabled="disabled" @click="this.handleUpload">Analyse</button>
+         <button id="download" disabled="disabled" @click="this.CamUpload">Analyse</button>
        </div>
 
 
 
        <Header></Header>
         <div class="py1">
-        <input type="file" class="btn btn-small btn-primary btn-upload bg-black h5"  >
+        <input type="file" class="btn btn-small btn-primary btn-upload bg-black h5" @change="this.handleUpload"  >
         </div>
         
         <div class="relative" v-show="imgUrl">
@@ -39,7 +39,7 @@
 import debounce from "lodash.debounce";
 import { FaceFinder } from "@/scripts/face";
 import { EmotionNet } from "@/scripts/models";
-import {  nextFrame, drawBox, drawText } from "@/util";
+import {  readFile, nextFrame, drawBox, drawText } from "@/util";
 import Footer from '@/components/Footer';
 import Header from '@/components/Header';
 import Message from '@/components/Message';
@@ -193,7 +193,19 @@ export default {
 
     handleResize : debounce(function (){this.drawDetections()}, 100),
 
-    handleUpload : async function () {
+    handleUpload : async function (e) {
+    
+      let files = e.target.files || e.dataTransfer.files;	    
+      if (!files.length) return	
+      const fileData = await readFile(files[0])
+      this.imgUrl= fileData.url;
+      this.loading= true;
+      this.detections= [];
+      this.faces= [];
+      this.emotions= [];
+     
+    },
+    CamUpload : async function () {
     
       this.loading= true;
       this.imgUrl=link1
@@ -202,6 +214,7 @@ export default {
       this.emotions= [];
      
     },
+
 
     analyzeFaces : async function ()  {
       
