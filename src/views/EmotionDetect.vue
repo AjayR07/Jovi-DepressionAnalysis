@@ -1,8 +1,21 @@
 <template>
      <div class="px2 mx-auto container app">
+
+
+       <h1 id="msg">Please allow this page to access your camera.</h1>
+       <div id="wrapper">
+         <video></video>
+         <canvas></canvas>
+         <br />
+         <button id="newphoto">Take A Photo</button>
+         <button id="download" disabled="disabled" @click="this.handleUpload">Analyse</button>
+       </div>
+
+
+
        <Header></Header>
         <div class="py1">
-        <input type="file" class="btn btn-small btn-primary btn-upload bg-black h5" @change="this.handleUpload" >
+        <input type="file" class="btn btn-small btn-primary btn-upload bg-black h5"  >
         </div>
         
         <div class="relative" v-show="imgUrl">
@@ -15,7 +28,7 @@
          <strong>Sorry!</strong> No faces were detected. Please try another
          image.
        </Message>
-       <Results :faces="this.faces" :emotions="this.emotions" v-show="this.faces.length > 0"></Results>
+       <Results :faces=this.faces :emotions=this.emotions v-show="faces.length > 0"></Results>
 
        <Footer />
       </div>
@@ -26,37 +39,128 @@
 import debounce from "lodash.debounce";
 import { FaceFinder } from "@/scripts/face";
 import { EmotionNet } from "@/scripts/models";
-import { readFile, nextFrame, drawBox, drawText } from "@/util";
+import {  nextFrame, drawBox, drawText } from "@/util";
 import Footer from '@/components/Footer';
 import Header from '@/components/Header';
 import Message from '@/components/Message';
 import Results from '@/components/Results';
 
-import sampleImg from '@/img/sample.jpg';
+// import sampleImg from '@/img/sample.jpg';
 
 // export component
+let link1
 export default {
   name: "EmotionDetect",
-  mounted() {
-    this.canvas = this.$refs.vueref1;
-    this.img = this.$refs.vueref0;
-    this.initModels();
-    window.addEventListener("resize", this.handleResize);
-  },
-  destroyed() {
-    window.removeEventListener("resize", this.handleResize);
-  },
   data: () => ({
     ready: false,
     loading: false,
-    imgUrl: sampleImg,
+    imgUrl: '',
     detections: [],
     faces: [],
     emotions: [],
     img:'',
     canvas: '',
+    link1,
     publicPath: process.env.BASE_URL
   }),
+  mounted() {
+
+    this.canvas = this.$refs.vueref1;
+    this.img = this.$refs.vueref0;
+    this.initModels();
+    window.addEventListener("resize", this.handleResize);
+
+
+    var messageArea = null,
+        wrapperArea = null,
+        btnNewPhoto = null,
+        btnDownload = null,
+        videoCamera = null,
+        canvasPhoto = null;
+
+    function init() {
+      messageArea = document.querySelector("#msg");
+      wrapperArea = document.querySelector("#wrapper");
+      btnNewPhoto = document.querySelector("#newphoto");
+      btnDownload = document.querySelector("#download");
+      videoCamera = document.querySelector("video");
+      canvasPhoto = document.querySelector("canvas");
+
+      if (window.location.protocol != 'http:' && window.location.protocol != "file:") {
+        window.location.href = 'http:' + window.location.href.substring(window.location.protocol.length);
+        return;
+      }
+
+      if (navigator.mediaDevices === undefined) {
+        navigator.mediaDevices = {};
+      }
+
+      if (navigator.mediaDevices.getUserMedia === undefined) {
+        navigator.mediaDevices.getUserMedia = function (constraints) {
+
+          var getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
+
+          if (!getUserMedia) {
+            return Promise.reject(new Error('getUserMedia is not implemented in this browser'));
+          }
+
+          return new Promise(function (resolve, reject) {
+            getUserMedia.call(navigator, constraints, resolve, reject);
+          });
+        };
+      }
+
+      navigator.mediaDevices.getUserMedia({
+        video: true
+      })
+          .then(function (stream) {
+            if ("srcObject" in videoCamera) {
+              videoCamera.srcObject = stream;
+            } else {
+              videoCamera.src = window.URL.createObjectURL(stream);
+            }
+
+            messageArea.style.display = "none";
+            wrapperArea.style.display = "block";
+            btnNewPhoto.onclick = takeAPhoto;
+            // btnDownload.onclick = downloadPhoto;
+
+            videoCamera.onloadedmetadata = function () {
+              videoCamera.setAttribute("width", this.videoWidth);
+              videoCamera.setAttribute("height", this.videoHeight);
+              canvasPhoto.setAttribute("width", this.videoWidth);
+              canvasPhoto.setAttribute("height", this.videoHeight);
+              videoCamera.play();
+            };
+          })
+          .catch(function (err) {
+            messageArea.innerHTML = err.name + ": " + err.message;
+          });
+    }
+
+    function takeAPhoto() {
+      canvasPhoto.getContext("2d").drawImage(videoCamera, 0, 0, videoCamera.width, videoCamera.height);
+      btnDownload.removeAttribute("disabled");
+      //convert into blob
+      canvasPhoto.toBlob(function (blob) {
+          var link= URL.createObjectURL(blob);
+          link1=link
+          console.log("Here the link "+link)
+
+      }, "image/jpeg", 1);
+
+    }
+
+   
+
+    window.onload = init;
+
+
+  },
+  destroyed() {
+    window.removeEventListener("resize", this.handleResize);
+  },
+
   components: { 
       Header,Footer,Message,Results
   },
@@ -89,16 +193,14 @@ export default {
 
     handleResize : debounce(function (){this.drawDetections()}, 100),
 
-    handleUpload : async function (e) {
-      let files = e.target.files || e.dataTransfer.files;
-      if (!files.length) return
-      const fileData = await readFile(files[0])
-      this.imgUrl= fileData.url;
+    handleUpload : async function () {
+    
       this.loading= true;
+      this.imgUrl=link1
       this.detections= [];
       this.faces= [];
       this.emotions= [];
-      console.log("HandleUpload");
+     
     },
 
     analyzeFaces : async function ()  {
