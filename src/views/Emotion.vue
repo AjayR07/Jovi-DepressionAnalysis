@@ -3,21 +3,25 @@
     <div style="visibility:hidden; opacity:0" id="dropzone">
       <div id="textnode">Drop anywhere!</div>
     </div>
-    <v-sheet>
+    <v-sheet >
     <div style="height:200px">
 
     </div>
-      <CameraShutter @GetLinkFromCam="LinkFromCam"></CameraShutter>
-    <div class="text-center">
-      <v-btn color="blue-grey" class="ma-2 white--text"  @click="$refs.inputUpload.click()" tile><v-icon left dark>mdi-cloud-upload</v-icon>Upload</v-btn>
-      <input v-show="false" ref="inputUpload" type="file" @change="this.handleUpload" >
-<!--      <input type="file" @change="this.handleUpload"  >-->
-    </div>
-
-    <div class="relative" v-show="imgUrl">
-      <img ref="vueref0" @load="this.handleImgLoaded" :src="this.imgUrl" alt="" />
-      <canvas ref="vueref1" class="absolute top-0 left-0" />
-    </div>
+      <v-row cols="8" class="justify-center">
+        <v-col cols="3"><CameraShutter @GetLinkFromCam="LinkFromCam"></CameraShutter></v-col>
+        <v-col cols="3">
+          <div class="text-center">
+            <v-btn color="blue-grey" class="ma-2 white--text"  @click="$refs.inputUpload.click()" tile><v-icon left dark>mdi-cloud-upload</v-icon>Upload</v-btn>
+            <input v-show="false" ref="inputUpload" type="file" @change="this.handleUpload" >
+          </div>
+        </v-col>
+      </v-row>
+      <v-row class="justify-center">
+        <div class="relative" v-show="imgUrl">
+          <img ref="vueref0" @load="this.handleImgLoaded" :src="this.imgUrl" alt="" />
+          <canvas ref="vueref1" class="absolute top-0 left-0" />
+        </div>
+      </v-row>
     <Message v-show="!ready">Loading machine learning models...</Message>
     <Message v-show="loading">Analyzing image...</Message>
     <Message bg="red" color="white" v-show="noFaces">
