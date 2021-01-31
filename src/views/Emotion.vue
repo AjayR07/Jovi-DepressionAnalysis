@@ -7,10 +7,11 @@
     <div style="height:200px">
 
     </div>
-
-    <div class="py1">
-      <input type="file" @change="this.handleUpload"  >
-
+      <CameraShutter></CameraShutter>
+    <div class="text-center">
+      <v-btn color="blue-grey" class="ma-2 white--text"  @click="$refs.inputUpload.click()" tile><v-icon left dark>mdi-cloud-upload</v-icon>Upload</v-btn>
+      <input v-show="false" ref="inputUpload" type="file" @change="this.handleUpload" >
+<!--      <input type="file" @change="this.handleUpload"  >-->
     </div>
 
     <div class="relative" v-show="imgUrl">
@@ -34,7 +35,7 @@ import debounce from "lodash.debounce";
 import { FaceFinder } from "@/scripts/face";
 import { EmotionNet } from "@/scripts/models";
 import {  readFile, nextFrame, drawBox, drawText } from "@/util";
-
+import CameraShutter from "@/components/CameraShutter";
 import Message from '@/components/Message';
 import Results from '@/components/Results';
 
@@ -120,7 +121,7 @@ export default {
   },
 
   components: {
-      Message,Results
+      Message,Results,CameraShutter
   },
   computed:{
     noFaces(){

@@ -3,20 +3,18 @@
   <v-dialog v-model="dialog" max-width="490">
     <template v-slot:activator="{ on, attrs }">
       <v-btn color="primary" dark v-bind="attrs" v-on="on">
-        Open Dialog
+        Capture from Camera
       </v-btn>
     </template>
-  <v-card>
+  <v-card v-click-outside="stopCameraStream">
     <v-card-title class="headline">
       Camera Capture
     </v-card-title>
     <div id="app" class="text-center">
-
-
       <v-btn type="button" v-if="!isCameraOpen" @click="toggleCamera">
        Open Camera
       </v-btn>
-      <v-btn v-if="isCameraOpen" @click="toggleCamera" icon color="pink" ><v-icon>mdi-close-circle-outline </v-icon></v-btn>
+      <v-btn v-if="isCameraOpen" @click="toggleCamera" color="pink"><v-icon left>mdi-close-circle-outline </v-icon> Close</v-btn>
       <div v-show="isCameraOpen && isLoading" >
         <v-progress-circular :width="5" color="red" indeterminate></v-progress-circular>
       </div>
@@ -28,23 +26,37 @@
           <canvas v-show="isPhotoTaken" id="photoTaken" ref="canvas" width="370" height="300"></canvas>
       </v-card>
       </div>
-      <div v-if="isCameraOpen && !isLoading" class="camera-shoot">
-        <v-btn elevation="5" fab raised rounded color="blue" @click="takePhoto">
-          <v-icon dark>
-          mdi-camera-iris
-        </v-icon></v-btn>
-      </div>
-
+      <v-row class="justify-between">
+        <v-col v-if="isPhotoTaken && isCameraOpen">
+          <v-btn elevation="5" fab raised rounded color="red" @click="toggleCamera">
+            <v-icon>
+              mdi-close
+            </v-icon></v-btn>
+        </v-col>
+        <v-col v-if="isCameraOpen && !isLoading">
+          <v-btn elevation="5" fab raised rounded color="blue" @click="takePhoto">
+            <v-icon dark>
+            mdi-camera-iris
+          </v-icon></v-btn>
+        </v-col>
+        <v-col v-if="isPhotoTaken && isCameraOpen" >
+          <v-btn elevation="5" fab raised rounded color="green">
+            <v-icon>
+              mdi-check
+            </v-icon></v-btn>
+        </v-col>
+      </v-row>
       <div v-if="isPhotoTaken && isCameraOpen" class="camera-download">
         <a id="downloadPhoto" download="my-photo.jpg" class="button" role="button" @click="downloadImage">
-          Download
+          <v-btn text color="primary">
+            Download
+          </v-btn>
         </a>
       </div>
     </div>
     <v-card-actions>
       <v-spacer></v-spacer>
-
-      <v-btn color="red darken-1" text @click="dialog = false">
+      <v-btn color="red darken-1" text @click="stopCameraStream();dialog = false;">
         Close
       </v-btn>
     </v-card-actions>
@@ -59,7 +71,7 @@ export default {
   name: "CameraShutter",
   data() {
     return {
-      dialog:true,
+      dialog:false,
       isCameraOpen: false,
       isPhotoTaken: false,
       isShotPhoto: false,

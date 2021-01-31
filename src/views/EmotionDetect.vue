@@ -144,17 +144,11 @@ export default {
       }, "image/jpeg", 1);
 
     }
-
-   
-
     window.onload = init;
-
-
   },
   destroyed() {
     window.removeEventListener("resize", this.handleResize);
   },
-
   components: { 
       Message,Results
   },
