@@ -1,13 +1,10 @@
 <template>
   <v-app>
     <AppBar>
-<!--      <camera-shutter></camera-shutter>-->
-      <Emotion></Emotion>
+        <Emotion></Emotion>
+<!--        <Category></Category>-->
     </AppBar>
-<!--    <EmotionDetect></EmotionDetect>-->
-
   </v-app>
-
 </template>
 <script>
 // @ is an alias to /src
@@ -16,15 +13,16 @@ import EmotionDetect from '@/views/EmotionDetect';
 import Emotion from '@/views/Emotion';
 import AppBar from '@/components/util/AppBar';
 import CameraShutter from "@/components/CameraShutter";
+import Category from "@/views/Category";
 
 export default {
   name: 'App',
   components: {
     // eslint-disable-next-line vue/no-unused-components
-    CameraShutter,EmotionDetect,AppBar, Emotion
+    CameraShutter,EmotionDetect,AppBar, Emotion,  Category
   },
   data: ()=>({
-
+    bg: require("@/assets/images/background.jpg"),
   })
 }
 </script>

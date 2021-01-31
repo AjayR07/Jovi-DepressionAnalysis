@@ -1,6 +1,8 @@
 <template>
   <div>
-    <v-app-bar absolute color="#43a047" dark shrink-on-scroll prominent src="https://picsum.photos/1920/1080?random" fade-img-on-scroll scroll-target="#scrolling-techniques" scroll-threshold="500">
+<!--    <v-app-bar absolute color="#43a047" dark shrink-on-scroll prominent src="https://picsum.photos/1920/1080?random" fade-img-on-scroll scroll-target="#scrolling-techniques" scroll-threshold="500">-->
+    <v-app-bar color="#43a047" dark   src="https://picsum.photos/1920/1080?random" dense>
+<!--      Prominent will make it bigger-->
       <template v-slot:img="{ props }">
         <v-img
             v-bind="props"
@@ -10,7 +12,7 @@
 
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
 
-      <v-app-bar-title>Emotion Detection</v-app-bar-title>
+      <v-app-bar-title>Depression Analysis</v-app-bar-title>
 <!--      <v-toolbar-title>Emotion Detection</v-toolbar-title>-->
       <v-spacer></v-spacer>
 
@@ -61,10 +63,11 @@
       </v-list>
     </v-navigation-drawer>
 
-    <v-container id="scrolling-techniques"
-                 class="overflow-y-auto">
+    <v-parallax dark :src="bg" height="100%">
+      <v-container>
       <slot></slot>
     </v-container>
+    </v-parallax>
   </div>
 
 </template>
@@ -78,11 +81,16 @@ export default {
         { title: 'Home', icon: 'mdi-view-dashboard' },
         { title: 'About', icon: 'mdi-forum' },
       ],
+      bg: require("@/assets/images/background.jpg"),
     }
   },
 }
 </script>
 
-<style scoped>
+<style>
 
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+body{
+  font-family: 'Open Sans', sans-serif;
+}
 </style>

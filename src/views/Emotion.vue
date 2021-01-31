@@ -3,10 +3,10 @@
     <div style="visibility:hidden; opacity:0" id="dropzone">
       <div id="textnode">Drop anywhere!</div>
     </div>
-    <v-sheet >
-    <div style="height:200px">
-
-    </div>
+    <v-sheet rounded="lg" elevation="5">
+      <br>
+      <v-card-title class="text-center display-1">Emotion Detection using CNN</v-card-title>
+      <br>
       <v-row cols="8" class="justify-center">
         <v-col cols="3"><CameraShutter @GetLinkFromCam="LinkFromCam"></CameraShutter></v-col>
         <v-col cols="3">
@@ -40,10 +40,12 @@
     </Message>
       <br>
     <Results :faces=this.faces :emotions=this.emotions v-show="faces.length > 0"></Results>
-      <v-snackbar v-model="snackbar" :multi-line="false">
-        Processing Completed
-        <v-btn color="pink" text @click="snackbar = false">Close</v-btn>
-      </v-snackbar>
+        <v-snackbar v-model="snackbar">
+          Process Completed
+          <template v-slot:action="{ attrs }">
+            <v-btn color="red" text v-bind="attrs" @click="snackbar = false">Close</v-btn>
+          </template>
+        </v-snackbar>
     </v-sheet>
   </div>
 </template>
@@ -59,7 +61,7 @@ import Message from '@/components/Message';
 import Results from '@/components/Results';
 
 
-import sampleImg from '@/img/sample.jpg';
+import sampleImg from '@/img/sample2.jpg';
 
 // export component
 let link1,dragdrop;
