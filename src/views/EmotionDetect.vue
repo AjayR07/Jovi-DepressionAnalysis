@@ -1,7 +1,6 @@
 <template>
      <div class="px2 mx-auto container app">
 
-
        <h1 id="msg">Please allow this page to access your camera.</h1>
        <div id="wrapper">
          <video></video>
