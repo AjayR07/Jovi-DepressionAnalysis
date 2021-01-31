@@ -11,7 +11,7 @@
         <v-col cols="3"><CameraShutter @GetLinkFromCam="LinkFromCam"></CameraShutter></v-col>
         <v-col cols="3">
           <div class="text-center">
-            <v-btn color="blue-grey" class="ma-2 white--text"  @click="$refs.inputUpload.click()" tile><v-icon left dark>mdi-cloud-upload</v-icon>Upload</v-btn>
+            <v-btn color="#E91E63" class="ma-2 white--text"  @click="$refs.inputUpload.click()" rounded><v-icon left dark>mdi-cloud-upload</v-icon>Upload</v-btn>
             <input v-show="false" ref="inputUpload" type="file" @change="this.handleUpload" >
           </div>
         </v-col>
@@ -23,12 +23,27 @@
         </div>
       </v-row>
     <Message v-show="!ready">Loading machine learning models...</Message>
-    <Message v-show="loading">Analyzing image...</Message>
+      <v-dialog v-model="loading" hide-overlay persistent width="300">
+        <v-card color="#385F73" dark elevation="5">
+          <v-card-text color="white">
+            Analyzing Image....Please wait...
+            <br>
+            <v-progress-linear indeterminate rounded color="white" class="mb-0"></v-progress-linear>
+          </v-card-text>
+        </v-card>
+      </v-dialog>
+<!--    <Message v-show="loading">Analyzing image...</Message>-->
+      <br>
     <Message bg="red" color="white" v-show="noFaces">
       <strong>Sorry!</strong> No faces were detected. Please try another
       image.
     </Message>
+      <br>
     <Results :faces=this.faces :emotions=this.emotions v-show="faces.length > 0"></Results>
+      <v-snackbar v-model="snackbar" :multi-line="false">
+        Processing Completed
+        <v-btn color="pink" text @click="snackbar = false">Close</v-btn>
+      </v-snackbar>
     </v-sheet>
   </div>
 </template>
@@ -59,9 +74,9 @@ export default {
     emotions: [],
     img:'',
     canvas: '',
+    snackbar: false,
     dragdrop,
     link1,
-    publicPath: process.env.BASE_URL
   }),
   mounted: function () {
     this.canvas = this.$refs.vueref1;
@@ -130,7 +145,8 @@ export default {
   computed:{
     noFaces(){
       return this.ready && !this.loading && this.imgUrl && !this.faces.length;
-    }
+    },
+
   },
   methods:{
 
@@ -176,7 +192,7 @@ export default {
     },
     CamUpload : async function () {
 
-      this.loading= true;
+      this.loading= false;
       this.imgUrl=link1
       this.detections= [];
       this.faces= [];
@@ -187,6 +203,7 @@ export default {
 
     analyzeFaces : async function ()  {
 
+      this.loading=true;
       await nextFrame()
 
       if (!this.models)
@@ -208,6 +225,7 @@ export default {
       this.detections=detections;
       this.faces=faces;
       this.emotions=emotions;
+      this.snackbar=true;
       this.drawDetections();
     },
 

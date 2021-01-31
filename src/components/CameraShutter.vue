@@ -1,29 +1,30 @@
 <template>
   <div>
-  <v-dialog v-model="dialog"  max-width="490">
+  <v-dialog v-model="dialog"  max-width="500" style="overflow-x: hidden;">
     <template v-slot:activator="{ on, attrs }">
-      <v-btn color="primary" dark v-bind="attrs" v-on="on">
-        Capture from Camera
+      <v-btn color="primary" dark v-bind="attrs" v-on="on" rounded>
+        <v-icon left dark>mdi-camera-plus</v-icon>
+        Camera
       </v-btn>
     </template>
-  <v-card v-click-outside="stopCameraStream">
+  <v-card v-click-outside="stopCameraStream" style="overflow-x: hidden;">
     <v-card-title class="headline">
       Camera Capture
     </v-card-title>
     <div id="app" class="text-center">
-      <v-btn type="button" v-if="!isCameraOpen" @click="toggleCamera">
+      <v-btn type="button" v-if="!isCameraOpen" @click="toggleCamera" >
        Open Camera
       </v-btn>
-      <v-btn v-if="isCameraOpen" @click="toggleCamera" color="pink"><v-icon left>mdi-close-circle-outline </v-icon> Close</v-btn>
+      <v-btn v-if="isCameraOpen" @click="toggleCamera" color="pink" ><v-icon left>mdi-close-circle-outline </v-icon> Close</v-btn>
       <div v-show="isCameraOpen && isLoading" >
         <v-progress-circular :width="5" color="red" indeterminate></v-progress-circular>
       </div>
 
-      <div class="pa-10" v-if="isCameraOpen" >
+      <div class="pa-5" v-if="isCameraOpen" >
       <v-card elevation="5"   v-show="!isLoading"  :class="{ 'flash' : isShotPhoto }" >
           <div  :class="{'flash' : isShotPhoto}"></div>
           <video v-show="!isPhotoTaken" ref="camera" width="100%" height="100%" autoplay></video>
-          <canvas v-show="isPhotoTaken" id="photoTaken" ref="canvas" width="370" height="300"></canvas>
+          <canvas v-show="isPhotoTaken" id="photoTaken" ref="canvas" width="350" height="310"></canvas>
       </v-card>
       </div>
       <v-row class="justify-between">

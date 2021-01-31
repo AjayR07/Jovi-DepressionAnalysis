@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-app-bar absolute color="#43a047" dark shrink-on-scroll prominent src="https://picsum.photos/1920/1080?random" fade-img-on-scroll scroll-target="#scrolling-techniques-5" scroll-threshold="500">
+    <v-app-bar absolute color="#43a047" dark shrink-on-scroll prominent src="https://picsum.photos/1920/1080?random" fade-img-on-scroll scroll-target="#scrolling-techniques" scroll-threshold="500">
       <template v-slot:img="{ props }">
         <v-img
             v-bind="props"
@@ -10,8 +10,8 @@
 
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
 
-      <v-app-bar-title>Title</v-app-bar-title>
-
+      <v-app-bar-title>Emotion Detection</v-app-bar-title>
+<!--      <v-toolbar-title>Emotion Detection</v-toolbar-title>-->
       <v-spacer></v-spacer>
 
       <v-btn icon>
@@ -26,11 +26,6 @@
         <v-icon>mdi-dots-vertical</v-icon>
       </v-btn>
     </v-app-bar>
-
-      <v-container id="scrolling-techniques-2"
-                    class="overflow-y-auto">
-        <slot></slot>
-      </v-container>
 
     <v-navigation-drawer
         v-model="drawer"
@@ -66,6 +61,10 @@
       </v-list>
     </v-navigation-drawer>
 
+    <v-container id="scrolling-techniques"
+                 class="overflow-y-auto">
+      <slot></slot>
+    </v-container>
   </div>
 
 </template>
