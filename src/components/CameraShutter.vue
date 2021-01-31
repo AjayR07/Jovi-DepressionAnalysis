@@ -1,6 +1,6 @@
 <template>
   <div>
-  <v-dialog v-model="dialog" max-width="490">
+  <v-dialog v-model="dialog"  max-width="490">
     <template v-slot:activator="{ on, attrs }">
       <v-btn color="primary" dark v-bind="attrs" v-on="on">
         Capture from Camera
@@ -40,23 +40,18 @@
           </v-icon></v-btn>
         </v-col>
         <v-col v-if="isPhotoTaken && isCameraOpen" >
-          <v-btn elevation="5" fab raised rounded color="green">
+          <v-btn elevation="5" fab raised rounded color="green"  @click="SendLink(); dialog = false;">
             <v-icon>
               mdi-check
             </v-icon></v-btn>
         </v-col>
       </v-row>
       <div v-if="isPhotoTaken && isCameraOpen" class="camera-download">
-        <a id="downloadPhoto" download="my-photo.jpg" class="button" role="button" @click="downloadImage">
-          <v-btn text color="primary">
-            Download
-          </v-btn>
-        </a>
       </div>
     </div>
     <v-card-actions>
       <v-spacer></v-spacer>
-      <v-btn color="red darken-1" text @click="stopCameraStream();dialog = false;">
+      <v-btn color="red darken-1" text @click="stopCameraStream(); dialog = false;">
         Close
       </v-btn>
     </v-card-actions>
@@ -76,11 +71,20 @@ export default {
       isPhotoTaken: false,
       isShotPhoto: false,
       isLoading: false,
-      link: '#'
+      link: '',
+      find:true,
     }
   },
 
   methods: {
+
+
+    SendLink:async function async() {
+      await this.downloadImage();
+      await this.stopCameraStream();
+      this.$emit("GetLinkFromCam",this.link);
+
+    },
     toggleCamera() {
       if(this.isCameraOpen) {
         this.isCameraOpen = false;
@@ -116,6 +120,7 @@ export default {
     },
 
     stopCameraStream() {
+      console.log("Closed");
       let tracks = this.$refs.camera.srcObject.getTracks();
       tracks.forEach(track => {
         track.stop();
@@ -140,10 +145,10 @@ export default {
     },
 
     downloadImage() {
-      const download = document.getElementById("downloadPhoto");
-      const canvas = document.getElementById("photoTaken").toDataURL("image/jpeg")
-          .replace("image/jpeg", "image/octet-stream");
-      download.setAttribute("href", canvas);
+      const canvas = document.getElementById("photoTaken").toDataURL("image/jpeg");
+      this.link=canvas;
+
+
     },
 
   }

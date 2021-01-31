@@ -7,7 +7,7 @@
     <div style="height:200px">
 
     </div>
-      <CameraShutter></CameraShutter>
+      <CameraShutter @GetLinkFromCam="LinkFromCam"></CameraShutter>
     <div class="text-center">
       <v-btn color="blue-grey" class="ma-2 white--text"  @click="$refs.inputUpload.click()" tile><v-icon left dark>mdi-cloud-upload</v-icon>Upload</v-btn>
       <input v-show="false" ref="inputUpload" type="file" @change="this.handleUpload" >
@@ -40,7 +40,7 @@ import Message from '@/components/Message';
 import Results from '@/components/Results';
 
 
-// import sampleImg from '@/img/sample.jpg';
+import sampleImg from '@/img/sample.jpg';
 
 // export component
 let link1,dragdrop;
@@ -49,7 +49,7 @@ export default {
   data: () => ({
     ready: false,
     loading: false,
-    imgUrl: '',
+    imgUrl: sampleImg,
     detections: [],
     faces: [],
     emotions: [],
@@ -129,6 +129,12 @@ export default {
     }
   },
   methods:{
+
+    LinkFromCam: function(link) {
+      // alert(link);
+      this.imgUrl=link;
+    },
+
     initModels : async function () {
       const faceModel = new FaceFinder()
       await faceModel.load()
