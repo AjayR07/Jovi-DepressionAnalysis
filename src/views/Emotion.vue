@@ -9,24 +9,27 @@
       <br>
       <v-row cols="6" class="justify-center">
         <v-col cols="3"><CameraShutter @GetLinkFromCam="LinkFromCam"></CameraShutter></v-col>
-        <v-col cols="3">
+        <v-col cols="3" >
           <div class="text-center">
             <v-btn color="#E91E63" class="white--text"  @click="$refs.inputUpload.click()" rounded><v-icon left dark>mdi-cloud-upload</v-icon>Upload</v-btn>
             <input v-show="false" ref="inputUpload" type="file" @change="this.handleUpload" >
           </div>
         </v-col>
       </v-row>
-      <v-row class="justify-center">
+
+      <v-card class="mx-auto my-8  pa-4 " max-width="600" max-height="400" raised elevation="10" >
         <div class="relative" v-show="imgUrl">
-          <img ref="vueref0" @load="this.handleImgLoaded" :src="this.imgUrl" alt="" />
+          <img ref="vueref0" @load="this.handleImgLoaded" :src="this.imgUrl" />
           <canvas ref="vueref1" class="absolute top-0 left-0" />
         </div>
-      </v-row>
-    <Message v-show="!ready">Loading machine learning models...</Message>
+        <br>
+      </v-card>
       <v-dialog v-model="loading" hide-overlay persistent width="300">
         <v-card color="#385F73" dark elevation="5">
           <v-card-text color="white">
-            Analyzing Image....Please wait...
+            <span v-if="!ready">Loading machine learning models...</span>
+            <span v-else>Analyzing Image....Please wait...</span>
+
             <br>
             <v-progress-linear indeterminate rounded color="white" class="mb-0"></v-progress-linear>
           </v-card-text>
@@ -34,12 +37,12 @@
       </v-dialog>
 <!--    <Message v-show="loading">Analyzing image...</Message>-->
       <br>
-    <Message bg="red" color="white" v-show="noFaces">
+    <Message bg="red" color="white" v-show="noFaces"  class="mx-auto" style="width:80%">
       <strong>Sorry!</strong> No faces were detected. Please try another
       image.
     </Message>
       <br>
-    <Results :faces=this.faces :emotions=this.emotions v-show="faces.length > 0"></Results>
+    <Results v-if="!loading" :faces=this.faces :emotions=this.emotions v-show="faces.length > 0"></Results>
         <v-snackbar v-model="snackbar">
           Process Completed
           <template v-slot:action="{ attrs }">
@@ -48,6 +51,7 @@
         </v-snackbar>
     </v-sheet>
   </div>
+
 </template>
 
 <script>

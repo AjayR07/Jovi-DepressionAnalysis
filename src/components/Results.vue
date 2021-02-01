@@ -1,38 +1,38 @@
 <template>
-  <div>
-    <Message>
+  <div class="mx-auto" style="width:80%">
+    <Message >
       <strong>Results:</strong> Total <strong>{{ this.total }}</strong>
       {{ this.total > 1 ? 'people' : 'person' }} detected,
+      Out of them
       <strong>
-        {{ this.happy }}{{'  '}} {{ this.fmt(this.happy / this.total, 0)}}
+        {{ this.happy }}{{'  '}} {{ this.total > 1 ? 'people' : 'person' }} {{'  ('}}{{ this.fmt(this.happy / this.total, 0)}})
       </strong>
       {{ this.happy === 1 ? 'is' : 'are' }} happy.
     </Message>
     <div>
-      <div class="flex flex-wrap mxn1 mt1">
-        <div v-for="(face,i) in faces" :key="i">
+      <v-row>
+        <v-col v-for="(face,i) in faces" :key="i" cols="4" class="d-flex child-flex">
         <!-- <div class="col col-4 sm-col-3 md-col-5th px1">
           <div class="mb1 border border-silver rounded overflow-hidden"> -->
-            <img
-                :src="face.toDataURL()"
-    
-                class="block col-12"
-            />
+          <v-card>
+            <v-img :src="face.toDataURL()" aspect-ratio="1" class="block col-12"></v-img>
             <div class="p05 fs-tiny">
               <div v-for="({ label, value },i) in emotions[i].slice(0, 2)" :key="i">
-              <div class="flex justify-between">
+              <div class="flex justify-between ma-2">
                 <div class="mr05 truncate">
                   {{ label.emoji }}
+
                   {{ label.name }}
                 </div>
                 <div class="bold">{{ fmt(value) }}</div>
               </div>
               </div>
             </div>
+          </v-card>
           <!-- </div>
         </div> -->
-        </div>
-      </div>
+        </v-col>
+      </v-row>
     </div>
   </div>
 </template>
@@ -52,17 +52,11 @@ export default {
     happy:0.0
   }),
   props:['faces','emotions'],
-  mounted(){
-
-      console.log(this.faces);
-      console.log(this.emotions);
+  created(){
 
       this.total=this.faces.length;
-      this.happy=this.emotions.filter(r => r[0].label.emoji === '😄').length
-
       console.log(this.total);
-      console.log(this.happy);
-    
+      this.happy=this.emotions.filter(r => r[0].label.emoji === '😄').length
   },
   methods:{
     fmt(x,digits=1)
