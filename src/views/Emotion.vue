@@ -7,11 +7,11 @@
       <br>
       <v-card-title class="text-center display-1">Emotion Detection using CNN</v-card-title>
       <br>
-      <v-row cols="8" class="justify-center">
+      <v-row cols="6" class="justify-center">
         <v-col cols="3"><CameraShutter @GetLinkFromCam="LinkFromCam"></CameraShutter></v-col>
         <v-col cols="3">
           <div class="text-center">
-            <v-btn color="#E91E63" class="ma-2 white--text"  @click="$refs.inputUpload.click()" rounded><v-icon left dark>mdi-cloud-upload</v-icon>Upload</v-btn>
+            <v-btn color="#E91E63" class="white--text"  @click="$refs.inputUpload.click()" rounded><v-icon left dark>mdi-cloud-upload</v-icon>Upload</v-btn>
             <input v-show="false" ref="inputUpload" type="file" @change="this.handleUpload" >
           </div>
         </v-col>
