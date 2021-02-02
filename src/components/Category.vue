@@ -3,7 +3,7 @@
     <v-container class="pa-4">
       <v-row  class="justify-center">
         <v-col v-for="card in cards" :key="card.id" cols="12" md="4">
-          <v-card class="mx-auto" elevation="10">
+          <v-card class="mx-auto" elevation="10" @click="$router.push({name:'CNN'})">
             <div>
               <div v-show="!card.active" class="ribbon ribbon-top-right"><span>DEV</span></div>
               <v-img :src="card.imgurl" height="250" ></v-img>
@@ -27,10 +27,10 @@ export default {
   name: "Category",
   data: () => ({
     cards: [
-      { id:0,header: 'Computer Vision', title: 'Analysis using CNN', desc:'By Processing Image in CNN Model',imgurl:require("@/assets/images/Face.jpg"), link:'/labreg', flex: 6,active:true },
-      { id:1,header: 'Natural Language Processing', title: 'Analysis using RNN', desc:'By computing emotion from Speech',imgurl:require("@/assets/images/NLP.png"),link:'/nursereg',flex: 6,active:false },
-      { id:2,header: 'Questionnaire', title: 'Analysis using Scales', desc:'By calculating the results of questions answered',imgurl:require("@/assets/images/Scales.png"),link:'/docreg',flex: 6,active:false },
-      { id:3,header: 'IoT', title: 'Analysis using Sensors', desc:'By reading the sensor results ',imgurl:require("@/assets/images/IoT.jpg"),link:'/counsreg',flex: 6,active:false },
+      { id:0,header: 'Computer Vision', title: 'Analysis using CNN', desc:'By Processing Image in CNN Model',imgurl:require("@/assets/images/Face.jpg"), link:'/cnn', flex: 6,active:true },
+      { id:1,header: 'Natural Language Processing', title: 'Analysis using RNN', desc:'By computing emotion from Speech',imgurl:require("@/assets/images/NLP.png"),link:'/rnn',flex: 6,active:false },
+      { id:2,header: 'Questionnaire', title: 'Analysis using Scales', desc:'By calculating the results of questions answered',imgurl:require("@/assets/images/Scales.png"),link:'/scale',flex: 6,active:false },
+      { id:3,header: 'IoT', title: 'Analysis using Sensors', desc:'By reading the sensor results ',imgurl:require("@/assets/images/IoT.jpg"),link:'/iot',flex: 6,active:false },
     ],
   }),
 }

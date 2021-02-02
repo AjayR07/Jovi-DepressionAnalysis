@@ -36,8 +36,8 @@ import { FaceFinder } from "@/scripts/face";
 import { EmotionNet } from "@/scripts/models";
 import {  readFile, nextFrame, drawBox, drawText } from "@/util";
 
-import Message from '@/components/Message';
-import Results from '@/components/Results';
+import Message from '@/components/CNN/Message';
+import Results from '@/components/CNN/Results';
 
 // import sampleImg from '@/img/sample.jpg';
 

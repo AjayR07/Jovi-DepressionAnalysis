@@ -7,19 +7,21 @@
       <br>
       <v-card-title class="text-center display-1">Emotion Detection using CNN</v-card-title>
       <br>
-      <v-row cols="6" class="justify-center">
-        <v-col cols="3"><CameraShutter @GetLinkFromCam="LinkFromCam"></CameraShutter></v-col>
-        <v-col cols="3" >
-          <div class="text-center">
-            <v-btn color="#E91E63" class="white--text"  @click="$refs.inputUpload.click()" rounded><v-icon left dark>mdi-cloud-upload</v-icon>Upload</v-btn>
-            <input v-show="false" ref="inputUpload" type="file" @change="this.handleUpload" >
-          </div>
-        </v-col>
-      </v-row>
+
+        <v-row class="mb-6" justify="center" no-gutters dense style="background:#000000;">
+            <v-col cols="3" class="pa-2 text-center"><CameraShutter @GetLinkFromCam="LinkFromCam"></CameraShutter></v-col>
+            <v-col cols="3" class="pa-2">
+              <div class="text-center">
+                <v-btn color="#E91E63" class="white--text"  @click="$refs.inputUpload.click()" rounded><v-icon left dark>mdi-cloud-upload</v-icon>Upload</v-btn>
+                <input v-show="false" ref="inputUpload" type="file" @change="this.handleUpload" >
+              </div>
+            </v-col>
+        </v-row>
+
 
       <v-card class="mx-auto my-8  pa-4 " max-width="600" max-height="400" raised elevation="10" >
-        <div class="relative" v-show="imgUrl">
-          <img ref="vueref0" @load="this.handleImgLoaded" :src="this.imgUrl" />
+        <div class="relative pb-4" v-show="imgUrl">
+          <img ref="vueref0" @load="this.handleImgLoaded" :src="this.imgUrl"  alt="Cannot Load Image"/>
           <canvas ref="vueref1" class="absolute top-0 left-0" />
         </div>
         <br>
@@ -60,9 +62,9 @@ import debounce from "lodash.debounce";
 import { FaceFinder } from "@/scripts/face";
 import { EmotionNet } from "@/scripts/models";
 import {  readFile, nextFrame, drawBox, drawText } from "@/util";
-import CameraShutter from "@/components/CameraShutter";
-import Message from '@/components/Message';
-import Results from '@/components/Results';
+import CameraShutter from "@/components/CNN/CameraShutter";
+import Message from '@/components/CNN/Message';
+import Results from '@/components/CNN/Results';
 
 
 import sampleImg from '@/img/sample2.jpg';

@@ -65,11 +65,18 @@
 
     <v-parallax dark :src="bg" height="100%">
       <v-container>
-      <slot></slot>
-    </v-container>
+        <slot></slot>
+      </v-container>
     </v-parallax>
-  </div>
 
+
+    <v-footer padless>
+      <v-col class="text-center" cols="12">
+        &#169; {{ new Date().getFullYear() }} — <strong>Team A3, KEC</strong>
+      </v-col>
+    </v-footer>
+
+  </div>
 </template>
 <script>
 export default {

@@ -1,28 +1,23 @@
 <template>
   <v-app>
     <AppBar>
-        <Emotion></Emotion>
-<!--        <Category></Category>-->
+      <router-view></router-view>
     </AppBar>
   </v-app>
 </template>
 <script>
 // @ is an alias to /src
 
-import EmotionDetect from '@/views/EmotionDetect';
-import Emotion from '@/views/Emotion';
-import AppBar from '@/components/util/AppBar';
-import CameraShutter from "@/components/CameraShutter";
-import Category from "@/views/Category";
+import AppBar from "@/views/Home";
+
 
 export default {
   name: 'App',
   components: {
-    // eslint-disable-next-line vue/no-unused-components
-    CameraShutter,EmotionDetect,AppBar, Emotion,  Category
+    AppBar,
   },
   data: ()=>({
-    bg: require("@/assets/images/background.jpg"),
+
   })
 }
 </script>
