@@ -16,8 +16,10 @@
        Open Camera
       </v-btn>
       <v-btn v-if="isCameraOpen" @click="toggleCamera" color="pink" ><v-icon left>mdi-close-circle-outline </v-icon> Close</v-btn>
-      <div v-show="isCameraOpen && isLoading" >
-        <v-progress-circular :width="5" color="red" indeterminate></v-progress-circular>
+
+
+      <div v-show="isCameraOpen && isLoading" class="mt-10">
+        <v-progress-circular :width="5" :height="5" color="red" indeterminate></v-progress-circular>
       </div>
 
       <div class="pa-5" v-if="isCameraOpen" >
@@ -41,7 +43,7 @@
           </v-icon></v-btn>
         </v-col>
         <v-col v-if="isPhotoTaken && isCameraOpen" >
-          <v-btn elevation="5" fab raised rounded color="green"  @click="SendLink(); dialog = false;">
+          <v-btn elevation="5" fab raised rounded color="green"  @click="stopCameraStream;SendLink(); dialog = false;">
             <v-icon>
               mdi-check
             </v-icon></v-btn>
@@ -122,10 +124,15 @@ export default {
 
     stopCameraStream() {
       console.log("Closed");
-      let tracks = this.$refs.camera.srcObject.getTracks();
-      tracks.forEach(track => {
-        track.stop();
-      });
+      if(this.isCameraOpen) {
+        this.isCameraOpen = false;
+        this.isPhotoTaken = false;
+        this.isShotPhoto = false;
+        let tracks = this.$refs.camera.srcObject.getTracks();
+        tracks.forEach(track => {
+          track.stop();
+        });
+      }
     },
 
     takePhoto() {

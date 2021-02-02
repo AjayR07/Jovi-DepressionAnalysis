@@ -20,7 +20,7 @@
 
 
       <v-card class="mx-auto my-8  pa-4 " max-width="600" max-height="400" raised elevation="10" >
-        <div class="relative pb-4" v-show="imgUrl">
+        <div class="relative pb-4 justify-center" v-show="imgUrl">
           <img ref="vueref0" @load="this.handleImgLoaded" :src="this.imgUrl"  alt="Cannot Load Image"/>
           <canvas ref="vueref1" class="absolute top-0 left-0" />
         </div>
