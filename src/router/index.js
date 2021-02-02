@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 // import Home from "@/views/Home";
 import Emotion from "@/views/Emotion";
+import Category from "@/components/Category";
 
 
 
@@ -11,7 +12,7 @@ const routes = [
     {
         path: '/',
         name: 'Home',
-        component: Emotion
+        component: Category
     },
     {
         path: '/cnn',
@@ -27,7 +28,6 @@ const routes = [
 ]
 
 const router = new VueRouter({
-    mode: 'history',
     routes
 })
 

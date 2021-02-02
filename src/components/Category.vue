@@ -3,7 +3,7 @@
     <v-container class="pa-4">
       <v-row  class="justify-center">
         <v-col v-for="card in cards" :key="card.id" cols="12" md="4">
-          <v-card class="mx-auto" elevation="10" @click="$router.push({name:'CNN'})">
+          <v-card class="mx-auto" elevation="10" @click="$router.push(card.link)">
             <div>
               <div v-show="!card.active" class="ribbon ribbon-top-right"><span>DEV</span></div>
               <v-img :src="card.imgurl" height="250" ></v-img>
