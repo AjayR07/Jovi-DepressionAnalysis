@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from "@/views/Home";
 import Emotion from "@/views/Emotion";
+import Questionnaire from "@/components/Scales/Questionnaire";
 // import Category from "@/components/Category";
 
 
@@ -18,6 +19,11 @@ const routes = [
         path: '/cnn',
         name: 'CNN',
         component: Emotion
+    },
+    {
+        path: '/scale',
+        name: 'Scales',
+        component: Questionnaire
     },
     {
         path: '*',
