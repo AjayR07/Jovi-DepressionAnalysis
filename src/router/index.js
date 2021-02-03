@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-// import Home from "@/views/Home";
+import Home from "@/views/Home";
 import Emotion from "@/views/Emotion";
-import Category from "@/components/Category";
+// import Category from "@/components/Category";
 
 
 
@@ -12,7 +12,7 @@ const routes = [
     {
         path: '/',
         name: 'Home',
-        component: Category
+        component: Home
     },
     {
         path: '/cnn',

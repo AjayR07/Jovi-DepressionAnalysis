@@ -21,9 +21,20 @@
       </v-btn>
     </v-app-bar>
 
+    <offline @detected-condition="handleConnectivityChange">
+
+    </offline>
+
+    <v-banner single-line v-show="!online" class="text-center" :app="true">
+      <v-icon slot="icon" color="warning" size="36" class="mx-auto">mdi-wifi-strength-alert-outline</v-icon>
+      <span class="h3">Unable to verify your Internet connection</span>
+    </v-banner>
+
     <v-navigation-drawer v-model="drawer" absolute temporary>
       <NavigationBar/>
     </v-navigation-drawer>
+
+
 
     <v-parallax dark :src="bg" height="100%">
       <v-container>
@@ -32,6 +43,8 @@
         </transition>
       </v-container>
     </v-parallax>
+
+
 
     <Footer/>
 
@@ -43,12 +56,13 @@
 import AppBar from "@/views/Home";
 import Footer from "@/components/util/Footer";
 import NavigationBar from "@/components/util/NavigationBar";
+import offline from 'v-offline';
 
 export default {
   name: 'App',
   components: {
     // eslint-disable-next-line vue/no-unused-components
-    AppBar,Footer,NavigationBar
+    AppBar,Footer,NavigationBar, offline
   },
   data: ()=>({
     drawer: false,
@@ -57,10 +71,25 @@ export default {
       { title: 'About', icon: 'mdi-forum' },
     ],
     bg: require("@/assets/images/background.jpg"),
-    methods:{
-
+    online: true,
+  }),
+  methods:{
+    updateOnlineStatus: function(){
+        this.online = navigator.onLine;
+        console.log(navigator.onLine)
+    },
+    handleConnectivityChange: function(status){
+      this.online=status;
     }
-  })
+  },
+  mounted() {
+    window.addEventListener('online', this.updateOnlineStatus);
+    window.addEventListener('offline', this.updateOnlineStatus);
+  },
+  beforeDestroy() {
+    window.removeEventListener('online', this.updateOnlineStatus);
+    window.removeEventListener('offline', this.updateOnlineStatus);
+  }
 }
 </script>
 <style>
