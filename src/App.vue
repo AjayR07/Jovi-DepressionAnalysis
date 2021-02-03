@@ -27,7 +27,9 @@
 
     <v-parallax dark :src="bg" height="100%">
       <v-container>
+        <transition name="slither">
         <router-view></router-view>
+        </transition>
       </v-container>
     </v-parallax>
 
@@ -62,6 +64,19 @@ export default {
 }
 </script>
 <style>
+
+.slither-enter-active, .slither-leave-active {
+  transition: transform 1s;
+}
+
+.slither-enter, .slither-leave-to {
+  transform: translateY(-100%);
+}
+
+.slither-enter-to, .slither-leave {
+  transform: translateY(0);
+}
+
 /* Refers the whole setup */
 ::-webkit-scrollbar {
   width: 11px;
