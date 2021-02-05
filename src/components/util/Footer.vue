@@ -1,5 +1,5 @@
 <template>
-  <v-footer padless>
+  <v-footer padless dark>
     <v-col class="text-center" cols="12">
       &#169; {{ new Date().getFullYear() }} — <strong>Team A3, KEC</strong>
     </v-col>

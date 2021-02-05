@@ -3,47 +3,35 @@
 <!--  <v-flex>-->
 
     <v-card round class="elevation-10">
-      <v-progress-linear
-          color="blue"
-          height="10"
-          :value=getcurrentper
+      <v-progress-linear color="secondary" height="5" :value=getcurrentper></v-progress-linear>
+      <v-card-subtitle>
+        Hamilton Depression Rating Scale (HDRS)
+        </v-card-subtitle>
+      <v-divider ></v-divider>
+      <v-window v-show="!isResult" v-model="currentque">
+        <v-window-item   v-for="(n,i) in ques" :key="i">
 
-      ></v-progress-linear>
-      <v-card-title >
-        <v-col align="center"><h1 class="pa-auto" >Hamilton Depression Rating Scale (HDRS) </h1></v-col>
-        </v-card-title>
-      <v-divider class="xl"></v-divider>
+     <div align="center" style="color:black"> <h2 class="ma-auto pb-5" >{{n['question']}}</h2></div>
 
-      <v-window v-show="!isResult"
-
-          v-model="currentque"
-         >
-        <v-window-item   v-for="(n,i) in ques"
-                    :key="i">
-
-     <div align="center"> <h2 class="ma-auto pb-5" >{{n['question']}}</h2></div>
       <v-container>
         <v-row dense>
 
-          <v-col align="center"
-              v-for="(option,i) in n['options']"
-              :key="i"
-              cols="12"
-          >
+          <v-col align="center" class="pa-2" v-for="(option,i) in n['options']" :key="i" cols="12">
 
             <v-hover v-slot="{ hover }">
-              <v-card rounded="xl"  width="90%"
-                  :elevation="hover ? 5 : 2"
+              <v-card rounded="xl"  width="80%" outlined
+                  :elevation="hover ? 1 : 0"
                   :class="{ 'on-hover': hover }"
-                  :color="selected[currentque] == option ? '#7eb5fc':'#ededed'"
+                  :color="selected[currentque] === option ? '#7eb5fc':'#ededed'"
                   @click="choose(option)"
               >
-              <v-card-title  class="pa-2 pl-5"  :style="selected[currentque] == option? 'color:#ffffff':'color:black'">
+              <v-card-text  class="pa-2 pl-5"  :style="selected[currentque] === option? 'color:#ffffff':'color:black'">
                <div > {{getKeyByValue(n['options'],option)}}</div>
-              </v-card-title>
+              </v-card-text>
 
                </v-card>
               </v-hover>
+
            </v-col>
           </v-row>
          </v-container>
@@ -56,10 +44,7 @@
             <v-card color="blue" class="pa-10 ma-10" >
               <v-row >
 
-                <v-col
-                    cols="6"
-                    md="4"
-                >
+                <v-col cols="6" md="4">
                   <v-card>
 
                     <v-card-title>
@@ -67,11 +52,7 @@
                     </v-card-title>
                   </v-card>
                 </v-col>
-                <v-col
-                    cols="12"
-                    sm="6"
-                    md="8"
-                >
+                <v-col cols="12" sm="6" md="8">
 
                     <v-card>
 
@@ -87,7 +68,7 @@
             </v-card>
 
         </div>
-
+      <v-divider ></v-divider>
       <v-card-actions>
         <v-row>
           <v-col >
@@ -126,13 +107,7 @@
                 <v-icon>mdi-check-circle-outline</v-icon>
 
               </v-btn>
-              <v-btn v-else
-                     color="green"
-                     class="ma-2 white--text"
-                     @click="next()"
-                     depressed
-                      fab
-              >
+              <v-btn v-else color="primary" class="ma-2 white--text" @click="next()" depressed fab>
 
                 <v-icon>mdi-arrow-right</v-icon>
 

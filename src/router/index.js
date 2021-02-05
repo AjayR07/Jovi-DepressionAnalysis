@@ -2,7 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from "@/views/Home";
 import Emotion from "@/views/Emotion";
-import Questionnaire from "@/components/Scales/Questionnaire";
+import Scales from "@/components/Scales/Scales";
 // import Category from "@/components/Category";
 
 
@@ -23,7 +23,7 @@ const routes = [
     {
         path: '/scale',
         name: 'Scales',
-        component: Questionnaire
+        component: Scales
     },
     {
         path: '*',
