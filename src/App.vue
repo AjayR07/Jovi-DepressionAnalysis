@@ -36,7 +36,7 @@
 
     <v-parallax dark :src="bg" height="100%">
       <v-container>
-        <transition name="slither">
+        <transition name="zoom">
         <router-view></router-view>
         </transition>
       </v-container>
@@ -100,6 +100,29 @@ export default {
 
 .slither-enter-to, .slither-leave {
   transform: translateY(0);
+}
+
+
+.zoom-enter-active,
+.zoom-leave-active {
+  animation-duration: 0.7s;
+  animation-fill-mode: both;
+  animation-name: zoom;
+}
+
+.zoom-leave-active {
+  animation-direction: reverse;
+}
+
+@keyframes zoom {
+  from {
+    opacity: 0;
+    transform: scale3d(0.3, 0.3, 0.3);
+  }
+
+  100% {
+    opacity: 1;
+  }
 }
 
 /* Refers the whole setup */
