@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Home from "@/views/Home";
 import Emotion from "@/views/Emotion";
 import Scales from "@/components/Scales/Scales";
+import ScalesMaster from "@/components/Scales/ScalesMaster";
 // import Category from "@/components/Category";
 
 
@@ -24,6 +25,11 @@ const routes = [
         path: '/scale',
         name: 'Scales',
         component: Scales
+    },
+    {
+        path: '/scalemaster',
+        name: 'ScaleMaster',
+        component: ScalesMaster
     },
     {
         path: '*',
