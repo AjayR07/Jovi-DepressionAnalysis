@@ -45,7 +45,7 @@
     </Message>
       <br>
     <Results v-if="!loading" :faces=this.faces :emotions=this.emotions v-show="faces.length > 0"></Results>
-        <v-snackbar v-model="snackbar">
+        <v-snackbar v-model="snackbar" rounded elevation="4">
           Process Completed
           <template v-slot:action="{ attrs }">
             <v-btn color="red" text v-bind="attrs" @click="snackbar = false">Close</v-btn>
