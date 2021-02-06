@@ -3,6 +3,7 @@ import App from './App.vue'
 import 'ace-css/css/ace.min.css'
 import router from './router/index'
 import vuetify from './plugins/vuetify';
+import './registerServiceWorker'
 
 Vue.config.productionTip = false
 
