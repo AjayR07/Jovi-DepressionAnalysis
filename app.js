@@ -4,7 +4,7 @@ const mongoose=require('mongoose')
 require('dotenv').config()
 
 // Mongo Connection
-mongoose.connect(process.env.DATABASE_URL, {useNewUrlParser:true})
+mongoose.connect('mongodb+srv://JoviDB:Kongu@2020@jovi.v93ye.mongodb.net/Jovi', {useNewUrlParser:true})
 const db=mongoose.connection
 db.on('error',(error)=>console.log("Error in Mongo"+error))
 db.once('open',()=>console.log('Connected to Mongo'))

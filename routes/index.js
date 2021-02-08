@@ -1,62 +1,91 @@
 const express=require('express')
 const router=express.Router()
-const jovi=require('../models/jovi.js')
-const getUser=require('../middleware/getUser')
+// const jovi=require('../models/jovi.js')
+// const getUser=require('../middleware/getUser')
+const scale=require('../models/scale.js')
+const getQuestion=require('../middleware/getQuestion')
+// // Getting all
+// router.get('/',async (req,res)=>{
+//     try{
+//         const allUsers=await jovi.find()
+//         res.json(allUsers)
+//     }
+//     catch(err){
+//         res.status(500).json({message:err.message})
+//     }
+//
+// })
+// // Getting One
+// router.get('/:id',getUser,(req,res)=>{
+//     res.json(res.user)
+// })
+// // Creating one
+// router.post('/',async (req,res)=>{
+//     const user=new jovi({
+//         name: req.body.name,
+//         age: req.body.age
+//     })
+//     try{
+//         const newUser=await user.save()
+//         res.status(201).json(newUser)
+//     }
+//     catch(err){
+//         res.status(400).json({message:err.message})
+//     }
+//
+// })
+// // Updating One
+// router.patch('/:id',getUser,async (req,res)=>{
+//     if(req.body.name!=null){
+//         res.user.name=req.body.name
+//     }
+//     if(req.body.age!=null){
+//         res.user.age=req.body.age
+//     }
+//     try{
+//         const updatedUser=await res.user.save()
+//         res.json(updatedUser)
+//     }catch (e) {
+//         res.status(400).json({message:e.message})
+//     }
+// })
+// // Deleting one
+// router.delete('/:id',getUser,async (req,res)=>{
+//     try{
+//         await res.user.remove()
+//         res.status(204).json({message:'User Deleted Successfully'})
+//     }catch(err){
+//         res.status(500).json({message:err.message})
+//     }
+// })
+//
+//
+// // Getting all scales
+// router.get('/',async (req,res)=>{
+//     try{
+//         const allScales=await scale.find()
+//         res.json(allScales)
+//     }
+//     catch(err){
+//         res.status(500).json({message:err.message})
+//     }
+// })
 
-// Getting all
-router.get('/',async (req,res)=>{
+
+// Getting all scales
+router.get('/scales',async (req,res)=>{
     try{
-        const allUsers=await jovi.find()
-        res.json(allUsers)
+        const allScales=await scale.find()
+        res.json(allScales)
     }
     catch(err){
         res.status(500).json({message:err.message})
     }
-
-})
-// Getting One
-router.get('/:id',getUser,(req,res)=>{
-    res.json(res.user)
-})
-// Creating one
-router.post('/',async (req,res)=>{
-    const user=new jovi({
-        name: req.body.name,
-        age: req.body.age
-    })
-    try{
-        const newUser=await user.save()
-        res.status(201).json(newUser)
-    }
-    catch(err){
-        res.status(400).json({message:err.message})
-    }
-
-})
-// Updating One
-router.patch('/:id',getUser,async (req,res)=>{
-    if(req.body.name!=null){
-        res.user.name=req.body.name
-    }
-    if(req.body.age!=null){
-        res.user.age=req.body.age
-    }
-    try{
-        const updatedUser=await res.user.save()
-        res.json(updatedUser)
-    }catch (e) {
-        res.status(400).json({message:e.message})
-    }
-})
-// Deleting one
-router.delete('/:id',getUser,async (req,res)=>{
-    try{
-        await res.user.remove()
-        res.status(204).json({message:'User Deleted Successfully'})
-    }catch(err){
-        res.status(500).json({message:err.message})
-    }
 })
 
+// Getting one Scale's questions
+router.get('/questions/:id',getQuestion,(req,res)=>{
+    res.json(res.question)
+})
 
 module.exports = router
