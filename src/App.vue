@@ -20,11 +20,8 @@
       </v-btn>
     </v-app-bar>
 
-    <offline @detected-condition="handleConnectivityChange">
-
-    </offline>
-
-    <v-banner single-line v-show="!online" class="text-center" :app="true">
+    <offline @detected-condition="handleConnectivityChange"></offline>
+    <v-banner single-line v-show="!online" class="text-center" :app="true" color="white">
       <v-icon slot="icon" color="warning" size="36" class="mx-auto">mdi-wifi-strength-alert-outline</v-icon>
       <span class="h3">Unable to verify your Internet connection</span>
     </v-banner>

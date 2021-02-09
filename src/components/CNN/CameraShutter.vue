@@ -7,7 +7,7 @@
         Camera
       </v-btn>
     </template>
-  <v-card v-click-outside="stopCameraStream" style="overflow-x: hidden;">
+  <v-card v-click-outside="stopCameraStream" style="overflow-x: hidden;" color="white">
     <v-card-title class="headline">
       Camera Capture
     </v-card-title>

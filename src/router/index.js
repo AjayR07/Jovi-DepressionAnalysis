@@ -34,7 +34,7 @@ const routes = [
     {
         path: '*',
         name: '404',
-        component: Emotion
+        component: Home
     },
 
 ]
