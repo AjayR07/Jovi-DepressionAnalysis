@@ -1,11 +1,10 @@
 <template>
   <v-app>
-    <v-app-bar color="#43a047" dark   src="https://picsum.photos/1920/1080?random" dense>
+
+
+    <v-app-bar color="#6A76AB" dark shrink-on-scroll  src="https://source.unsplash.com/random/?nature,water" dense>
       <template v-slot:img="{ props }">
-        <v-img
-            v-bind="props"
-            gradient="to top right, rgba(55,236,186,.7), rgba(25,32,72,.7)"
-        ></v-img>
+        <v-img v-bind="props" gradient="to top right, rgba(100,115,201,.7), rgba(25,32,72,.7)"></v-img>
       </template>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       <v-app-bar-title>Depression Analysis</v-app-bar-title>
@@ -30,7 +29,7 @@
       <span class="h3">Unable to verify your Internet connection</span>
     </v-banner>
 
-    <v-navigation-drawer v-model="drawer" absolute temporary>
+    <v-navigation-drawer v-model="drawer" absolute temporary class="deep-purple accent-4">
       <NavigationBar/>
     </v-navigation-drawer>
 
