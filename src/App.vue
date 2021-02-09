@@ -33,14 +33,12 @@
       <NavigationBar/>
     </v-navigation-drawer>
 
-    <v-parallax dark :src="bg" height="100%">
-      <v-container>
-        <transition name="zoom">
-        <router-view></router-view>
-        </transition>
-      </v-container>
-    </v-parallax>
 
+    <v-container>
+      <transition name="zoom">
+      <router-view></router-view>
+      </transition>
+    </v-container>
     <Footer/>
 
   </v-app>
@@ -65,7 +63,7 @@ export default {
       { title: 'Home', icon: 'mdi-view-dashboard' },
       { title: 'About', icon: 'mdi-forum' },
     ],
-    bg: require("@/assets/images/background.jpg"),
+
     online: true,
   }),
   methods:{
