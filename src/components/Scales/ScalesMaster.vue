@@ -2,14 +2,33 @@
   <v-col>
     <v-sheet elevation="10" rounded="xl">
       <v-sheet class="pa-3 primary text-center" dark rounded="t-xl">
-        <h2 class="ma-auto">Select a Scale</h2>
+        <v-row>
+          <v-col align="left" class="pl-5" cols="12" sm="5" md="8">
+            <p style="font-size: 28px">Select a Scale</p>
+          </v-col>
+          <v-col cols="6" md="4">
+            <v-text-field
+              dense
+              outlined
+              label="Search"
+              prepend-inner-icon="mdi-file-find"
+              v-model="searchvalue"
+            ></v-text-field>
+          </v-col>
+        </v-row>
       </v-sheet>
 
       <div class="pa-5">
         <v-chip-group column v-model="selected" active-class="primary--text">
-          <v-chip v-for="tag in tags" :key="tag">
-            <p style="font-size: 125%">{{ tag }}</p>
-          </v-chip>
+          <div v-for="tag in data" :key="tag['id']">
+            <v-chip
+              v-if="
+                tag['name'].toUpperCase().includes(searchvalue.toUpperCase())
+              "
+            >
+              <p style="font-size: 125%">{{ tag["name"] }}</p></v-chip
+            >
+          </div>
         </v-chip-group>
       </div>
 
@@ -20,55 +39,41 @@
         dark
         rounded="b-xl"
       >
-        <h3 class="ma-auto">Continue</h3>
+        <v-btn
+
+            outlined
+            elevation="2"
+        >Continue</v-btn>
       </v-sheet>
     </v-sheet>
   </v-col>
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   data: () => ({
     selected: null,
     isSelect: false,
     temp: "",
-    tags: [
-      "HAMILTON RATING SCALE FOR ANXIETY",
-      "BECK- Anxiety inventry",
-      "Childhood Autism Rating Scale",
-      "The Young Mania Rating Scale (YMRS)",
-      "Hamilton Rating Scale for Depression(HAM-D)",
-      "IDEAS (INDIAN DISABILITY AND ASSESSMENT SCALE)",
-      "Montgomery-Asberg Depression Rating Scale(MADRS)",
-      "DEMENTIA SEVERITY RATING SCALE",
-      "PANSS",
-      "BPRS",
-      "Geriatric Depression Scale",
-      "Fagerstrom Nicotine Dependence Scale",
-      "CAGE Questionnaire",
-      "CDS- CALGARY DEPRESSION SCALE FOR SCHIZOPHERENIA",
-      "NaN",
-      "VANDERABIL ADHD DIAGNOSTIC PARENT RATING SCALE",
-      "THE YALE-BROWN OBSESSIVE COMPULSIVE SCALE(Y-BOCS)",
-      "PSYCHOTIC SYMPTOM RATING SCALES (PSYRATS)",
-      "Suicidal Intent Scale",
-      "MINI-MENTAL STATE EXAMINATION - Athma Version",
-      "AUDIT",
-      "SAPS- Scale for the assessment of positive symptoms",
-      "CATATONIA RATING SCALE",
-      "STANDARDIZED MINI-MENTAL STATE EXAMINATION (SMMSE)",
-      "The Generalized Anxiety Disorder 7-Item Scale",
-      "Kutcher Adolescent Depression Scale (11-Item)",
-      "SANS- Scale for the assessment of negative symptoms",
-      "BECK`S SUICIDAL IDEATION INVENTRY",
-      "Hospital Anxiety and Depression Scale (HADS)",
-      "Major (ICD-10) Depression Inventory",
-    ],
+    data: "",
+    searchvalue: "",
+    count: 0,
   }),
   methods: {
     Continue: function () {
-      console.log(this.tags[this.selected]);
+      console.log(this.data[this.selected]["id"]);
+      this.$router.push({
+        name: "Scales",
+        params: { scaleid:'5' },
+      });
     },
+  },
+  mounted() {
+    axios.get(`https://node.teama3.tech/jovi/scales`).then((response) => {
+      this.data = response.data;
+    });
   },
 };
 </script>

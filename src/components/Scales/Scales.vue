@@ -1,16 +1,18 @@
 <template>
   <!--  <v-flex>-->
 
-  <v-card round class="elevation-10">
+  <v-card v-if="ques != null" class="elevation-10">
     <v-progress-linear
       color="secondary"
       height="5"
       :value="getcurrentper"
     ></v-progress-linear>
-    <v-card-subtitle > <b>Hamilton Depression Rating Scale (HDRS)</b> </v-card-subtitle>
+    <v-card-subtitle>
+      <b>{{ this.ques["name"] }}</b>
+    </v-card-subtitle>
     <v-divider></v-divider>
     <v-window v-show="!isResult" v-model="currentque">
-      <v-window-item v-for="(n, i) in ques" :key="i">
+      <v-window-item v-for="(n, i) in ques['questions']" :key="i">
         <div align="center" style="color: black">
           <h2 class="ma-auto pb-5">{{ n["question"] }}</h2>
         </div>
@@ -44,6 +46,7 @@
                         : 'color:black'
                     "
                   >
+                    <!--                    <div>{{ n }}</div>-->
                     <div>{{ getKeyByValue(n["options"], option) }}</div>
                   </v-card-text>
                 </v-card>
@@ -53,33 +56,34 @@
         </v-container>
       </v-window-item>
     </v-window>
-
+    <!--  Result card-->
     <div v-show="isResult">
-      <v-card color="blue" class="pa-10 ma-10">
-        <v-row>
-          <v-col cols="6" md="4">
-            <v-card>
-              <v-card-title>
-                <v-col align="center">
-                  <h2>Points Scored : {{ this.points }}</h2></v-col
-                >
-              </v-card-title>
-            </v-card>
-          </v-col>
-          <v-col cols="12" sm="6" md="8">
-            <v-card>
-              <v-card-title>
-                <v-col align="center"
-                  ><h2>Drepression Level : Moderate</h2></v-col
-                >
-              </v-card-title>
-            </v-card>
-          </v-col>
-        </v-row>
+      <v-card class="mx-auto mb-15" :color="this.resultcolor==''?'white':'resultcolor'" max-width="550" elevation="10" >
+        <v-card-title>
+          <h2 class="display-1">Points <b>84</b></h2>
+        </v-card-title>
+
+
+          <h2 class="pl-5 text-sm-h5"  v-for="(i, key) in ques['result']" :key="key">
+                                <div v-if="i != null">
+                                  <div v-if="points >= i['from'] && points <= i['to']">
+                                    Depression Level : <b>   {{ i["status"] }}</b>
+                                  </div>
+                                </div>
+                              </h2>
+
+
+        <v-divider class="mx-4"></v-divider>
+        <v-card-actions>
+          <v-btn block class="white--text" color="deep-purple accent-4" @click="Resubmit()">
+            Retry
+          </v-btn>
+        </v-card-actions>
       </v-card>
     </div>
+    <!--    Result card end-->
     <v-divider></v-divider>
-    <v-card-actions>
+    <v-card-actions v-show="!isResult">
       <v-row>
         <v-col>
           <v-fab-transition>
@@ -102,7 +106,7 @@
         <v-col align="right">
           <v-fab-transition>
             <v-btn
-              v-if="ques[currentque + 2] == null"
+              v-if="ques['total_count'] == currentque + 1 && !isResult"
               color="green"
               class="ma-2 white--text"
               @click="submit()"
@@ -112,10 +116,10 @@
               <v-icon>mdi-check-circle-outline</v-icon>
             </v-btn>
             <v-btn
-              v-else
+              v-else-if="!isResult"
               color="primary"
               class="ma-2 white--text"
-              @click="next()"
+              @click="submit()"
               depressed
               fab
             >
@@ -130,43 +134,26 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   data: () => ({
     isResult: false,
     selected: {},
     points: 0,
     currentque: 0,
-    ques: {
-      1: {
-        qno: 1,
-        question: "Depressed Mood [Sadness, hopeless, helpless, worthless]",
-        options: {
-          Absent: 0,
-          "These feeling states indicated only on questioning": 1,
-          "These feeling states spontaneously reported verbally": 2,
-          "Communicates feeling states nonverbally-ie, through facial expression, posture, voice, and tendency": 3,
-          "Patient reports VIRTUALLY ONLY these feeling states in his spontaneous verbal and nonverbal communi": 4,
-        },
-      },
-      2: {
-        qno: 2,
-        question: "Feeling of Guilt",
-        options: {
-          Absent: 0,
-          "Self-reproach, feels he has let people down": 1,
-          "Ideas of guilt or rumination over past errors or sinful deeds": 2,
-          "Present illness is a punishment/u002e Delusions of guilt": 3,
-          "Hears accusatory or denunciatory voices and/or experiences threatening visual hallucinations": 4,
-        },
-      },
-    },
+    ques: {},
+    resultcolor:''
   }),
   computed: {
     questionslength() {
-      return Object.keys(this.ques).length;
+      return this.ques["total_count"];
+    },
+    addcurrentques() {
+      return this.currentque + 1;
     },
     getcurrentper() {
-      return (this.currentque + 1 / this.questionslength) * 100;
+      return (this.addcurrentques / this.questionslength) * 100;
     },
   },
 
@@ -177,6 +164,8 @@ export default {
     choose: function (index) {
       this.selected[this.currentque] = index;
       this.points += index;
+      console.log(index);
+      console.log(this.points);
     },
     next: function () {
       if (this.currentque < this.questionslength - 1) {
@@ -198,6 +187,22 @@ export default {
       this.selected = {};
       this.points = 0;
     },
+  },
+  beforeMount() {
+    if (this.$route.params.scaleid == undefined) {
+      this.$router.push({
+        name: "ScaleMaster",
+      });
+    } else {
+      axios
+        .get(
+          `https://node.teama3.tech/jovi/questions/` +
+            this.$route.params.scaleid
+        )
+        .then((response) => {
+          this.ques = response.data[0];
+        });
+    }
   },
 };
 </script>
