@@ -14,7 +14,13 @@ module.exports = {
         name: 'Jovi',
         themeColor: '#1e355e',
         msTileColor: '#000000',
+        display: "standalone",
+        offline_enables: "true",
         appleMobileWebAppCapable: 'yes',
         appleMobileWebAppStatusBarStyle: 'black',
+        workboxPluginMode: "InjectManifest",
+        workboxOptions: {
+            swSrc: "src/service-worker.js",
+        }
     },
 };

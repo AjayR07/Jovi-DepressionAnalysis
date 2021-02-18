@@ -32,8 +32,8 @@
 <script>
 
 import debounce from "lodash.debounce";
-import { FaceFinder } from "@/scripts/face";
-import { EmotionNet } from "@/scripts/models";
+import { FaceFinder } from "@/scripts/CNN/face";
+import { EmotionNet } from "@/scripts/CNN/models";
 import {  readFile, nextFrame, drawBox, drawText } from "@/util";
 
 import Message from '@/components/CNN/Message';
